@@ -1,4 +1,5 @@
 import './App.css'
+import { useState } from 'react'
 export default function kkk(){
   return (
     <div className="dashboard">
@@ -7,6 +8,7 @@ export default function kkk(){
       <Kamo latitude="42.36" longitude="-71.05" />
       <Karen name="Artemis 2" status="Active" />
       <Tak name="ISS Expidition 71" status="Ongoing" />
+      <Conter/>
     </div>
   )
 }
@@ -36,3 +38,13 @@ function Tak(props){
 
   )
 }
+function Conter(){
+  const [count, setCount] = useState(0)
+
+  return(
+    <button onClick={() => setCount(count + 1)}>
+      Clicked {count} times
+    </button>
+  )
+}
+

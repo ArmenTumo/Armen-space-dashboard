@@ -1,6 +1,6 @@
 import './App.css'
-import { useState } from 'react'
-export default function kkk(){
+import { useState, useEffect } from 'react'
+export default function kkk() {
   return (
     <div className="dashboard">
       <h1>Armen-space-dashboard</h1>
@@ -8,43 +8,62 @@ export default function kkk(){
       <Kamo latitude="42.36" longitude="-71.05" />
       <Karen name="Artemis 2" status="Active" />
       <Tak name="ISS Expidition 71" status="Ongoing" />
-      <Conter/>
+      <Conter />
+      <tracker />
     </div>
   )
 }
-function Kamo(props){
- return (
-  <div className="card">
-   <h2>{props.latitude}</h2>
-   <p>{props.longitude}</p>
-  </div>
- )
-}
-function Karen(props){
+function Kamo(props) {
   return (
-<div className="warning">
-<h3>{props.name}</h3>
-  <p>{props.status}</p>
-</div>
+    <div className="card">
+      <h2>{props.latitude}</h2>
+      <p>{props.longitude}</p>
+    </div>
+  )
+}
+function Karen(props) {
+  return (
+    <div className="warning">
+      <h3>{props.name}</h3>
+      <p>{props.status}</p>
+    </div>
 
   )
 }
-function Tak(props){
+function Tak(props) {
   return (
-<div className="card">
-<h3>{props.name}</h3>
-  <p>{props.status}</p>
-</div>
+    <div className="card">
+      <h3>{props.name}</h3>
+      <p>{props.status}</p>
+    </div>
 
   )
 }
-function Conter(){
+function Conter() {
   const [count, setCount] = useState(0)
 
-  return(
+  return (
     <button onClick={() => setCount(count + 1)}>
       Clicked {count} times
     </button>
   )
 }
+function tracker() {
+  const [location, setLocation] = useState(null)
 
+  useEffect(() => {
+    fetch('https://api.wheretheiss.at/v1/satellites/25544')
+      .then(r => r.json)
+      .then(data => setLocation(data))
+  }, [7])
+  return (
+    <div className="card">
+      <h2>ISS position</h2>
+      {location ? (
+        <p>latitude: {location.latitude.toFixed(2)}, longitude: {location.longitude.toFixed(2)}</p>
+      ) : (
+        <p>Loading ...</p>
+      )}
+    </div>
+  )
+}

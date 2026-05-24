@@ -53,3 +53,54 @@ body {
 .warning {
   color: #ef4444;
 }
+/* =========================
+   ASTEROIDS
+========================= */
+
+.asteroid-canvas {
+  width: 260px;
+  height: 260px;
+  background: #050816;
+  border-radius: 12px;
+  margin: 0 auto 20px auto;
+  display: block;
+}
+
+.asteroid-stats-bar {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.asteroid-stat-box h3 {
+  margin: 0;
+  font-size: 28px;
+  color: #ffffff;
+}
+
+.asteroid-stat-box p {
+  margin: 4px 0 0;
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.asteroid-item {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.asteroid-item h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: #ffffff;
+}
+
+.asteroid-item p {
+  margin: 6px 0;
+  color: #d1d5db;
+}

@@ -1,29 +1,113 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
-  background: #0a0a0a;
+  background: #050a1a;
   color: white;
   font-family: monospace;
   margin: 0;
   padding: 20px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(ellipse at 50% 30%, #0c1a3a 0%, #060d1f 50%, #020510 100%);
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    radial-gradient(1px 1px at 10%  15%, rgba(255,255,255,0.85) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25%  60%, rgba(255,255,255,0.70) 0%, transparent 100%),
+    radial-gradient(1px 1px at 38%  8%,  rgba(255,255,255,0.90) 0%, transparent 100%),
+    radial-gradient(1px 1px at 52%  44%, rgba(255,255,255,0.65) 0%, transparent 100%),
+    radial-gradient(1px 1px at 67%  22%, rgba(255,255,255,0.80) 0%, transparent 100%),
+    radial-gradient(1px 1px at 74%  73%, rgba(255,255,255,0.55) 0%, transparent 100%),
+    radial-gradient(1px 1px at 83%  5%,  rgba(255,255,255,0.75) 0%, transparent 100%),
+    radial-gradient(1px 1px at 91%  50%, rgba(255,255,255,0.60) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 15% 80%, rgba(255,255,255,0.80) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 33% 35%, rgba(255,255,255,0.70) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 48% 90%, rgba(255,255,255,0.65) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 60% 58%, rgba(255,255,255,0.85) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 78% 40%, rgba(255,255,255,0.75) 0%, transparent 100%),
+    radial-gradient(2px   2px   at 5%  50%, rgba(255,255,255,0.60) 0%, transparent 100%),
+    radial-gradient(2px   2px   at 20% 28%, rgba(255,255,255,0.55) 0%, transparent 100%),
+    radial-gradient(2px   2px   at 44% 70%, rgba(255,255,255,0.70) 0%, transparent 100%),
+    radial-gradient(2px   2px   at 58% 12%, rgba(255,255,255,0.65) 0%, transparent 100%),
+    radial-gradient(2px   2px   at 86% 85%, rgba(255,255,255,0.60) 0%, transparent 100%),
+    radial-gradient(1px   1px   at 7%  95%, rgba(255,255,255,0.45) 0%, transparent 100%),
+    radial-gradient(1px   1px   at 29% 48%, rgba(255,255,255,0.50) 0%, transparent 100%),
+    radial-gradient(1px   1px   at 55% 82%, rgba(255,255,255,0.40) 0%, transparent 100%),
+    radial-gradient(1px   1px   at 71% 30%, rgba(255,255,255,0.55) 0%, transparent 100%),
+    radial-gradient(1px   1px   at 95% 65%, rgba(255,255,255,0.50) 0%, transparent 100%);
+  animation: twinkle 6s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  0%   { opacity: 0.6; }
+  50%  { opacity: 1.0; }
+  100% { opacity: 0.7; }
+}
+
+/* ===========================
+   LAYOUT
+=========================== */
+
+.dashboard {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.topbar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
 }
 
 .dashboard h1 {
   font-size: 2rem;
   color: #4ade80;
-  margin-bottom: 20px;
   letter-spacing: 0.1em;
+  margin: 0;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+.date {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0;
 }
+
+.card-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+/* ===========================
+   CARDS
+=========================== */
 
 .card {
   background: #141414;
   border: 1px solid #222;
   border-radius: 8px;
   padding: 16px;
+  margin-bottom: 16px;
 }
 
 .card h2 {
@@ -39,6 +123,21 @@ body {
   font-weight: 600;
 }
 
+.card img {
+  width: 60%;
+  display: block;
+  margin: 0 auto 12px;
+  border-radius: 12px;
+}
+
+.apod-explanation {
+  font-size: 0.85rem !important;
+  font-weight: 400 !important;
+  color: #aaa;
+  line-height: 1.6;
+  margin-top: 12px;
+}
+
 .label {
   font-size: 0.75rem;
   color: #666;
@@ -46,16 +145,36 @@ body {
   letter-spacing: 0.1em;
 }
 
-.live {
+.live    { color: #4ade80; }
+.warning { color: #ef4444; }
+
+/* ===========================
+   COUNTER
+=========================== */
+
+.counter-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  background: #141414;
+  border: 1px solid #222;
+  border-radius: 8px;
+  color: white;
+  font-family: monospace;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+}
+
+.counter-btn:hover {
+  border-color: #4ade80;
   color: #4ade80;
 }
 
-.warning {
-  color: #ef4444;
-}
-/* =========================
+/* ===========================
    ASTEROIDS
-========================= */
+=========================== */
 
 .asteroid-canvas {
   width: 260px;
@@ -103,4 +222,48 @@ body {
 .asteroid-item p {
   margin: 6px 0;
   color: #d1d5db;
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media (max-width: 600px) {
+  body {
+    padding: 12px;
+  }
+
+  .dashboard h1 {
+    font-size: 1.3rem;
+  }
+
+  .card-row {
+    grid-template-columns: 1fr;
+  }
+
+  .card p {
+    font-size: 1rem;
+  }
+
+  .card img {
+    width: 100%;
+  }
+
+  .asteroid-canvas {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+
+  .asteroid-stats-bar {
+    gap: 20px;
+  }
+
+  .asteroid-stat-box h3 {
+    font-size: 20px;
+  }
+
+  .apod-explanation {
+    font-size: 0.8rem !important;
+  }
 }

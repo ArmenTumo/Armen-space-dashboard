@@ -4,12 +4,16 @@ import { useState, useEffect, useRef } from 'react'
 export default function App() {
   return (
     <div className="dashboard">
-      <h1>Armen Space Dashboard</h1>
-      <p>{today()}</p>
+      <div className="topbar">
+        <h1>Armen Space Dashboard</h1>
+        <p className="date">{today()}</p>
+      </div>
 
-      <Kamo latitude="42.36" longitude="-71.05" />
-      <Karen name="Artemis II" status="Active" />
-      <Tak name="ISS Expedition 71" status="Ongoing" />
+      <div className="card-row">
+        <Kamo latitude="42.36" longitude="-71.05" />
+        <Karen name="Artemis II" status="Active" />
+        <Tak name="ISS Expedition 71" status="Ongoing" />
+      </div>
 
       <Counter />
       <ISSTracker />
@@ -47,7 +51,8 @@ function Kamo(props) {
 
 function Karen(props) {
   return (
-    <div className="warning">
+    <div className="card">
+      <h2>Status</h2>
       <h3>{props.name}</h3>
       <p>{props.status}</p>
     </div>
@@ -69,7 +74,7 @@ function Counter() {
   const [count, setCount] = useState(0)
 
   return (
-    <button onClick={() => setCount(count + 1)}>
+    <button className="counter-btn" onClick={() => setCount(count + 1)}>
       Clicked {count} times
     </button>
   )
@@ -83,9 +88,7 @@ function ISSTracker() {
   useEffect(() => {
     async function loadISS() {
       try {
-        const res = await fetch(
-          'https://api.wheretheiss.at/v1/satellites/25544'
-        )
+        const res = await fetch('https://api.wheretheiss.at/v1/satellites/25544')
         const data = await res.json()
         setLocation(data)
       } catch (e) {
@@ -95,14 +98,12 @@ function ISSTracker() {
 
     loadISS()
     const interval = setInterval(loadISS, 15000)
-
     return () => clearInterval(interval)
   }, [])
 
   return (
     <div className="card">
       <h2>ISS Position</h2>
-
       {location ? (
         <>
           <p>Latitude: {location.latitude.toFixed(2)}</p>
@@ -122,9 +123,7 @@ function PeopleInSpace() {
   const [people, setPeople] = useState(null)
 
   useEffect(() => {
-    fetch(
-      'https://corquaid.github.io/international-space-station-APIs/JSON/people-in-space.json'
-    )
+    fetch('https://corquaid.github.io/international-space-station-APIs/JSON/people-in-space.json')
       .then(r => r.json())
       .then(data => setPeople(data.people))
       .catch(console.error)
@@ -133,13 +132,10 @@ function PeopleInSpace() {
   return (
     <div className="card">
       <h2>People In Space</h2>
-
       {people ? (
         <ul>
           {people.map(person => (
-            <li key={person.name}>
-              👨‍🚀 {person.name}
-            </li>
+            <li key={person.name}>👨‍🚀 {person.name}</li>
           ))}
         </ul>
       ) : (
@@ -155,11 +151,7 @@ function APOD() {
   const [pic, setPic] = useState(null)
 
   useEffect(() => {
-    fetch(
-      `https://api.nasa.gov/planetary/apod?api_key=${
-        import.meta.env.VITE_NASA_KEY
-      }`
-    )
+    fetch(`https://api.nasa.gov/planetary/apod?api_key=${import.meta.env.VITE_NASA_KEY}`)
       .then(r => r.json())
       .then(data => setPic(data))
       .catch(console.error)
@@ -168,27 +160,15 @@ function APOD() {
   return (
     <div className="card">
       <h2>NASA Picture of the Day</h2>
-
       {pic ? (
         <>
           <h3>{pic.title}</h3>
-          <p>{pic.explanation}</p>
-
           {pic.media_type === 'image' ? (
-            <img
-              src={pic.url}
-              alt={pic.title}
-              style={{ width: '100%', borderRadius: 12 }}
-            />
+            <img src={pic.url} alt={pic.title} />
           ) : (
-            <a
-              href={pic.url}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Watch Video
-            </a>
+            <a href={pic.url} target="_blank" rel="noreferrer">Watch Video</a>
           )}
+          <p className="apod-explanation">{pic.explanation}</p>
         </>
       ) : (
         <p>Loading...</p>
@@ -208,40 +188,21 @@ function Asteroids() {
     async function loadAsteroids() {
       try {
         const date = today()
-
         const res = await fetch(
           `https://api.nasa.gov/neo/rest/v1/feed?start_date=${date}&end_date=${date}&api_key=${import.meta.env.VITE_NASA_KEY}`
         )
-
         const data = await res.json()
-
         const neos = data.near_earth_objects?.[date] || []
-
-        const sorted = [...neos].sort((a, b) => {
-          return (
-            parseFloat(
-              a.close_approach_data?.[0]?.miss_distance
-                ?.kilometers || 0
-            ) -
-            parseFloat(
-              b.close_approach_data?.[0]?.miss_distance
-                ?.kilometers || 0
-            )
-          )
-        })
-
-        setAsteroids(sorted.slice(0, 8))
-
-        setHazardousCount(
-          neos.filter(
-            n => n.is_potentially_hazardous_asteroid
-          ).length
+        const sorted = [...neos].sort((a, b) =>
+          parseFloat(a.close_approach_data?.[0]?.miss_distance?.kilometers || 0) -
+          parseFloat(b.close_approach_data?.[0]?.miss_distance?.kilometers || 0)
         )
+        setAsteroids(sorted.slice(0, 8))
+        setHazardousCount(neos.filter(n => n.is_potentially_hazardous_asteroid).length)
       } catch (e) {
         console.error(e)
       }
     }
-
     loadAsteroids()
   }, [])
 
@@ -253,38 +214,22 @@ function Asteroids() {
   return (
     <div className="card">
       <h2>Near Earth Asteroids</h2>
-
-      <canvas
-        ref={canvasRef}
-        width={260}
-        height={260}
-        className="asteroid-canvas"
-      />
-
+      <canvas ref={canvasRef} width={260} height={260} className="asteroid-canvas" />
       <div className="asteroid-stats-bar">
         <div className="asteroid-stat-box">
           <h3>{asteroids.length}</h3>
           <p>Closest Objects</p>
         </div>
-
         <div className="asteroid-stat-box">
           <h3>{hazardousCount}</h3>
           <p>Potentially Hazardous</p>
         </div>
       </div>
-
       {asteroids.length ? (
         asteroids.slice(0, 5).map(neo => (
           <div key={neo.id} className="asteroid-item">
             <h3>☄ {neo.name.replace(/[()]/g, '')}</h3>
-            <p>
-              Miss Distance:{' '}
-              {fmt(
-                neo.close_approach_data?.[0]
-                  ?.miss_distance?.kilometers
-              )}{' '}
-              km
-            </p>
+            <p>Miss Distance: {fmt(neo.close_approach_data?.[0]?.miss_distance?.kilometers)} km</p>
           </div>
         ))
       ) : (
@@ -298,13 +243,10 @@ function Asteroids() {
 
 function drawAsteroidMap(canvas, asteroids) {
   const ctx = canvas.getContext('2d')
-
   ctx.clearRect(0, 0, canvas.width, canvas.height)
-
   ctx.fillStyle = '#050816'
   ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-  // Earth
   ctx.beginPath()
   ctx.arc(130, 130, 20, 0, Math.PI * 2)
   ctx.fillStyle = '#2f81f7'
@@ -313,13 +255,9 @@ function drawAsteroidMap(canvas, asteroids) {
   asteroids.forEach((neo, i) => {
     const radius = 35 + i * 18
     const angle = (i / asteroids.length) * Math.PI * 2
-
     const x = 130 + Math.cos(angle) * radius
     const y = 130 + Math.sin(angle) * radius
-
-    const hazardous =
-      neo.is_potentially_hazardous_asteroid
-
+    const hazardous = neo.is_potentially_hazardous_asteroid
     ctx.beginPath()
     ctx.arc(x, y, hazardous ? 6 : 4, 0, Math.PI * 2)
     ctx.fillStyle = hazardous ? '#ff4d4d' : '#bbbbbb'
@@ -337,7 +275,7 @@ function SolarSystem() {
         title="NASA Solar System"
         style={{
           width: '100%',
-          height: '700px',
+          height: 'clamp(300px, 50vw, 700px)',
           border: 'none',
         }}
       />

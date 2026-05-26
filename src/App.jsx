@@ -130,10 +130,10 @@ function ISSTracker() {
   )
 }
 
+/* ================= PEOPLE IN SPACE ================= */
+
 function PeopleInSpace() {
   const [people, setPeople] = useState(null)
-  const [selected, setSelected] = useState(null)
-  const [bios, setBios] = useState({})
 
   useEffect(() => {
     fetch('https://corquaid.github.io/international-space-station-APIs/JSON/people-in-space.json')
@@ -142,101 +142,17 @@ function PeopleInSpace() {
       .catch(console.error)
   }, [])
 
-  async function loadBio(person) {
-    if (bios[person.name]) return
-    setBios(prev => ({ ...prev, [person.name]: { loading: true } }))
-
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{
-          role: 'user',
-          content: `Give a short astronaut profile for ${person.name} (currently aboard ${person.craft}). Return ONLY a JSON object with: bio (2 sentences), agency, nationality, missions (array max 3), role. No markdown or preamble.`
-        }]
-      })
-    })
-    const data = await res.json()
-    let text = data.content?.map(b => b.text || '').join('') || ''
-    text = text.replace(/```json|```/g, '').trim()
-    try {
-      setBios(prev => ({ ...prev, [person.name]: JSON.parse(text) }))
-    } catch {
-      setBios(prev => ({ ...prev, [person.name]: { bio: 'Profile unavailable.', agency: '', nationality: '', missions: [], role: '' } }))
-    }
-  }
-
-  const COLORS = [
-    { bg: '#1e3a5f', text: '#7eb8f7' },
-    { bg: '#1a3d2e', text: '#5ecfa0' },
-    { bg: '#2d2060', text: '#a99cf0' },
-    { bg: '#3d2800', text: '#f5c26b' },
-    { bg: '#3d1428', text: '#f09fc2' },
-  ]
-  const colorFor = i => COLORS[i % COLORS.length]
-  const initials = name => name.split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase()
-
-  const openCard = person => {
-    setSelected(person)
-    if (!bios[person.name]) loadBio(person)
-  }
-
-  const bio = selected ? bios[selected.name] : null
-
   return (
-    <div className="card" style={{ position: 'relative' }}>
+    <div className="card">
       <h2>People In Space</h2>
       {people ? (
-        <div className="pis-grid">
-          {people.map((p, i) => {
-            const c = colorFor(i)
-            return (
-              <div key={p.name} className="pis-card" onClick={() => openCard(p)}>
-                <div className="pis-avatar" style={{ background: c.bg, color: c.text }}>{initials(p.name)}</div>
-                <div className="pis-name">{p.name}</div>
-                <div className="pis-craft">{p.craft}</div>
-                <span className="pis-view-btn">View profile</span>
-              </div>
-            )
-          })}
-        </div>
-      ) : <p>Loading...</p>}
-
-      {selected && (
-        <div className="pis-overlay" onClick={e => { if (e.target.classList.contains('pis-overlay')) setSelected(null) }}>
-          <div className="pis-modal">
-            <button className="pis-close" onClick={() => setSelected(null)}>✕</button>
-            <div className="pis-modal-header">
-              <div className="pis-avatar lg" style={{ background: colorFor(people.indexOf(selected)).bg, color: colorFor(people.indexOf(selected)).text }}>
-                {initials(selected.name)}
-              </div>
-              <div>
-                <div className="pis-modal-name">{selected.name}</div>
-                <div className="pis-modal-craft">🚀 {selected.craft}</div>
-              </div>
-            </div>
-            {bio?.loading ? (
-              <p className="label" style={{ textAlign: 'center', padding: '12px 0' }}>Fetching profile…</p>
-            ) : bio ? (
-              <>
-                <p className="pis-bio">{bio.bio}</p>
-                <div className="pis-tags">
-                  {bio.role && <span className="pis-tag">👨‍✈️ {bio.role}</span>}
-                  {bio.agency && <span className="pis-tag">{bio.agency}</span>}
-                  {bio.nationality && <span className="pis-tag">🌍 {bio.nationality}</span>}
-                </div>
-                {bio.missions?.length > 0 && (
-                  <>
-                    <div className="label" style={{ marginTop: 12, marginBottom: 6 }}>Notable missions</div>
-                    <div className="pis-tags">{bio.missions.map(m => <span key={m} className="pis-tag">{m}</span>)}</div>
-                  </>
-                )}
-              </>
-            ) : null}
-          </div>
-        </div>
+        <ul>
+          {people.map(person => (
+            <li key={person.name}>👨‍🚀 {person.name}</li>
+          ))}
+        </ul>
+      ) : (
+        <p>Loading...</p>
       )}
     </div>
   )

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Orbitron:wght@400;700;900&display=swap');
+
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -5,7 +7,7 @@
 body {
   background: #050a1a;
   color: white;
-  font-family: monospace;
+  font-family: 'Space Mono', monospace;
   margin: 0;
   padding: 20px;
   position: relative;
@@ -75,27 +77,33 @@ body::after {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 20px;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(74, 222, 128, 0.15);
 }
 
 .dashboard h1 {
-  font-size: 2rem;
+  font-family: 'Orbitron', monospace;
+  font-size: 1.7rem;
+  font-weight: 900;
   color: #4ade80;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   margin: 0;
+  text-shadow: 0 0 30px rgba(74, 222, 128, 0.4), 0 0 60px rgba(74, 222, 128, 0.15);
 }
 
 .date {
-  font-size: 0.85rem;
-  color: #666;
+  font-size: 0.78rem;
+  color: #555;
   margin: 0;
+  letter-spacing: 0.05em;
 }
 
 .card-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-bottom: 16px;
+  gap: 14px;
+  margin-bottom: 14px;
 }
 
 /* ===========================
@@ -103,46 +111,96 @@ body::after {
 =========================== */
 
 .card {
-  background: #141414;
-  border: 1px solid #222;
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 16px;
+  background: linear-gradient(135deg, #111827 0%, #0f172a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 14px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.2s;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(74, 222, 128, 0.3), transparent);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.card:hover {
+  border-color: rgba(74, 222, 128, 0.25);
+  box-shadow: 0 0 30px rgba(74, 222, 128, 0.06), 0 8px 32px rgba(0, 0, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+.card:hover::before {
+  opacity: 1;
 }
 
 .card h2 {
+  font-family: 'Orbitron', monospace;
   color: #4ade80;
-  font-size: 0.85rem;
-  letter-spacing: 0.12em;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  margin-bottom: 12px;
+  margin: 0 0 16px 0;
+  opacity: 0.9;
+}
+
+.card h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin: 0 0 6px 0;
 }
 
 .card p {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 600;
+  margin: 0 0 6px 0;
+  line-height: 1.4;
+}
+
+.card ul {
+  font-size: 0.9rem;
+}
+
+.card li {
+  font-size: 0.88rem;
+  padding: 4px 0;
+  color: #cbd5e1;
+  line-height: 1.5;
 }
 
 .card img {
   width: 60%;
   display: block;
-  margin: 0 auto 12px;
-  border-radius: 12px;
+  margin: 0 auto 16px;
+  border-radius: 10px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
 }
 
 .apod-explanation {
-  font-size: 0.85rem !important;
+  font-size: 0.83rem !important;
   font-weight: 400 !important;
-  color: #aaa;
-  line-height: 1.6;
-  margin-top: 12px;
+  color: #94a3b8 !important;
+  line-height: 1.7;
+  margin-top: 14px !important;
 }
 
 .label {
-  font-size: 0.75rem;
-  color: #666;
+  font-size: 0.68rem;
+  color: #4b5563;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
+  font-family: 'Space Mono', monospace;
 }
 
 .live    { color: #4ade80; }
@@ -155,21 +213,24 @@ body::after {
 .counter-btn {
   display: block;
   width: 100%;
-  padding: 12px;
-  margin-bottom: 16px;
-  background: #141414;
-  border: 1px solid #222;
-  border-radius: 8px;
-  color: white;
-  font-family: monospace;
-  font-size: 1rem;
+  padding: 14px;
+  margin-bottom: 14px;
+  background: linear-gradient(135deg, #111827, #0f172a);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  color: #6b7280;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
   cursor: pointer;
   text-align: center;
+  transition: border-color 0.2s, color 0.2s, box-shadow 0.2s;
 }
 
 .counter-btn:hover {
-  border-color: #4ade80;
+  border-color: rgba(74, 222, 128, 0.4);
   color: #4ade80;
+  box-shadow: 0 0 16px rgba(74, 222, 128, 0.08);
 }
 
 /* ===========================
@@ -180,9 +241,11 @@ body::after {
   width: 260px;
   height: 260px;
   background: #050816;
-  border-radius: 12px;
-  margin: 0 auto 20px auto;
+  border-radius: 50%;
+  margin: 0 auto 24px;
   display: block;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 40px rgba(47, 129, 247, 0.1), inset 0 0 40px rgba(5, 8, 22, 0.8);
 }
 
 .asteroid-stats-bar {
@@ -191,37 +254,54 @@ body::after {
   gap: 40px;
   margin-bottom: 24px;
   text-align: center;
+  padding: 16px;
+  background: rgba(255,255,255,0.02);
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.05);
 }
 
 .asteroid-stat-box h3 {
-  margin: 0;
-  font-size: 28px;
+  margin: 0 0 4px;
+  font-size: 2rem;
+  font-family: 'Orbitron', monospace;
+  font-weight: 700;
   color: #ffffff;
 }
 
 .asteroid-stat-box p {
-  margin: 4px 0 0;
-  color: #9ca3af;
-  font-size: 14px;
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .asteroid-item {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 16px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.asteroid-item:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.12);
 }
 
 .asteroid-item h3 {
-  margin-top: 0;
-  margin-bottom: 12px;
-  color: #ffffff;
+  margin: 0 0 10px;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
 }
 
 .asteroid-item p {
-  margin: 6px 0;
-  color: #d1d5db;
+  margin: 4px 0;
+  color: #94a3b8;
+  font-size: 0.82rem !important;
+  font-weight: 400 !important;
 }
 
 /* ===========================
@@ -234,11 +314,15 @@ body::after {
   }
 
   .dashboard h1 {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
   }
 
   .card-row {
     grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 16px;
   }
 
   .card p {
@@ -260,7 +344,7 @@ body::after {
   }
 
   .asteroid-stat-box h3 {
-    font-size: 20px;
+    font-size: 1.5rem;
   }
 
   .apod-explanation {
@@ -269,25 +353,28 @@ body::after {
 }
 
 /* ===========================
-   NEW: MOON PHASE
+   MOON PHASE
 =========================== */
 
 .moon-canvas {
   display: block;
-  margin: 0 auto 12px;
+  margin: 0 auto 14px;
   border-radius: 50%;
-  border: 1px solid #333;
+  border: 1px solid rgba(232, 224, 200, 0.15);
+  box-shadow: 0 0 20px rgba(232, 224, 200, 0.08);
 }
 
 .moon-phase-name {
   text-align: center;
-  font-size: 1.1rem !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
   color: #e8e0c8 !important;
-  margin-bottom: 8px !important;
+  margin-bottom: 10px !important;
+  letter-spacing: 0.06em;
 }
 
 /* ===========================
-   NEW: NEXT LAUNCH COUNTDOWN
+   NEXT LAUNCH COUNTDOWN
 =========================== */
 
 .launch-content {
@@ -299,31 +386,37 @@ body::after {
 .launch-name {
   font-size: 1rem;
   font-weight: 700;
-  color: #fff;
-  line-height: 1.3;
+  color: #f1f5f9;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
 }
 
 .launch-provider {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: #4ade80;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .launch-pad {
-  font-size: 0.8rem;
-  color: #888;
+  font-size: 0.78rem;
+  color: #6b7280;
+  margin-top: 2px;
 }
 
 .launch-countdown {
+  font-family: 'Orbitron', monospace;
   font-size: 1.6rem;
   font-weight: 700;
   color: #facc15;
-  letter-spacing: 0.08em;
-  margin: 8px 0 4px;
+  letter-spacing: 0.06em;
+  margin: 10px 0 6px;
   font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 20px rgba(250, 204, 21, 0.3);
 }
 
 /* ===========================
-   NEW: SPACE NEWS
+   SPACE NEWS
 =========================== */
 
 .news-list {
@@ -333,59 +426,205 @@ body::after {
 }
 
 .news-item {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
   border-radius: 8px;
-  padding: 12px;
+  padding: 12px 14px;
   cursor: pointer;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, background 0.2s;
 }
 
 .news-item:hover {
-  border-color: #4ade80;
+  border-color: rgba(74, 222, 128, 0.3);
+  background: rgba(74, 222, 128, 0.03);
 }
 
 .news-expanded {
-  border-color: #4ade8055;
+  border-color: rgba(74, 222, 128, 0.2) !important;
+  background: rgba(74, 222, 128, 0.04) !important;
 }
 
 .news-title {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #e2e8f0;
-  line-height: 1.4;
-  margin-bottom: 6px;
+  line-height: 1.5;
+  margin-bottom: 8px;
+  font-weight: 700;
 }
 
 .news-meta {
   display: flex;
   justify-content: space-between;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
+  gap: 8px;
 }
 
 .news-summary p {
-  font-size: 0.82rem !important;
+  font-size: 0.8rem !important;
   font-weight: 400 !important;
-  color: #aaa;
-  line-height: 1.6;
-  margin-top: 10px;
+  color: #94a3b8 !important;
+  line-height: 1.7;
+  margin-top: 10px !important;
 }
 
 .news-link {
   display: inline-block;
-  margin-top: 8px;
-  font-size: 0.8rem;
+  margin-top: 10px;
+  font-size: 0.78rem;
   color: #4ade80;
   text-decoration: none;
+  letter-spacing: 0.05em;
+  transition: opacity 0.15s;
 }
 
 .news-link:hover {
+  opacity: 0.75;
   text-decoration: underline;
 }
 
 /* ===========================
-   NEW: ISS LIVE FEED
+   ISS LIVE FEED
 =========================== */
 
 .iss-feed-wrapper {
   width: 100%;
+}
+
+/* ===========================
+   PEOPLE IN SPACE
+=========================== */
+
+.pis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.pis-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+  padding: 14px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.pis-card:hover {
+  border-color: rgba(74, 222, 128, 0.3);
+  background: rgba(74, 222, 128, 0.03);
+}
+
+.pis-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.pis-avatar.lg {
+  width: 48px;
+  height: 48px;
+  font-size: 16px;
+}
+
+.pis-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin-bottom: 4px;
+}
+
+.pis-craft {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-bottom: 10px;
+}
+
+.pis-view-btn {
+  font-size: 0.7rem;
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.08);
+  border-radius: 6px;
+  padding: 3px 8px;
+  letter-spacing: 0.04em;
+}
+
+.pis-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 20px;
+  z-index: 10;
+  border-radius: 12px;
+}
+
+.pis-modal {
+  background: #111827;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  padding: 20px;
+  width: 90%;
+  max-width: 340px;
+  position: relative;
+}
+
+.pis-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.pis-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.pis-modal-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin-bottom: 2px;
+}
+
+.pis-modal-craft {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.pis-bio {
+  font-size: 0.82rem !important;
+  font-weight: 400 !important;
+  color: #94a3b8 !important;
+  line-height: 1.7;
+  margin-bottom: 12px !important;
+}
+
+.pis-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pis-tag {
+  font-size: 0.7rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 999px;
+  padding: 3px 10px;
+  color: #94a3b8;
 }
